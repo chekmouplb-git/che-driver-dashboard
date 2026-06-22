@@ -1,3 +1,56 @@
+/* ─── Shared module types ─── */
+
+export type ModuleId = 'driver' | 'cleanliness' | 'restroom';
+
+export interface ModuleConfig {
+  id: ModuleId;
+  label: string;
+  sublabel: string;
+  icon: string;
+  color: string;          // CSS hex for accent
+  colorLight: string;     // light background tint
+  colorBorder: string;    // border tint
+  available: boolean;
+  comingSoon?: string;    // message shown when not yet available
+}
+
+export const MODULES: ModuleConfig[] = [
+  {
+    id: 'driver',
+    label: 'Driving Feedback',
+    sublabel: 'Driver efficiency & ratings',
+    icon: '🚗',
+    color: '#1B4332',
+    colorLight: '#F0FDF4',
+    colorBorder: '#D1FAE5',
+    available: true,
+  },
+  {
+    id: 'cleanliness',
+    label: 'CHE Cleanliness',
+    sublabel: 'Building & facility cleanliness',
+    icon: '🧹',
+    color: '#1E3A5F',
+    colorLight: '#EFF6FF',
+    colorBorder: '#BFDBFE',
+    available: false,
+    comingSoon: 'Connect your CHE Cleanliness Google Form to activate this module.',
+  },
+  {
+    id: 'restroom',
+    label: 'Restroom Cleanliness',
+    sublabel: 'Restroom condition & upkeep',
+    icon: '🚻',
+    color: '#3B0764',
+    colorLight: '#FAF5FF',
+    colorBorder: '#E9D5FF',
+    available: false,
+    comingSoon: 'Connect your Restroom Cleanliness Google Form to activate this module.',
+  },
+];
+
+/* ─── Driver module types (unchanged) ─── */
+
 export interface FeedbackRow {
   timestamp: string;
   email: string;
