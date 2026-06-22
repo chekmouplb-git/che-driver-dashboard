@@ -1,7 +1,7 @@
 'use client';
 
 import { ModuleConfig, ModuleId } from '@/types';
-import { Gauge, Sparkles, Droplets, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Gauge, Sparkles, Droplets, Plus, ChevronLeft, ChevronRight, ClipboardList } from 'lucide-react';
 
 interface SidebarProps {
   modules: ModuleConfig[];
@@ -12,6 +12,7 @@ interface SidebarProps {
 }
 
 const MODULE_ICONS: Record<ModuleId, React.ReactNode> = {
+  satisfaction: <ClipboardList size={22} />,
   driver:      <Gauge size={22} />,
   cleanliness: <Sparkles size={22} />,
   restroom:    <Droplets size={22} />,

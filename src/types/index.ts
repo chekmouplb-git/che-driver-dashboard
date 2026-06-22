@@ -1,17 +1,17 @@
 /* ─── Shared module types ─── */
 
-export type ModuleId = 'driver' | 'cleanliness' | 'restroom';
+export type ModuleId = 'driver' | 'satisfaction' | 'cleanliness' | 'restroom';
 
 export interface ModuleConfig {
   id: ModuleId;
   label: string;
   sublabel: string;
   icon: string;
-  color: string;          // CSS hex for accent
-  colorLight: string;     // light background tint
-  colorBorder: string;    // border tint
+  color: string;
+  colorLight: string;
+  colorBorder: string;
   available: boolean;
-  comingSoon?: string;    // message shown when not yet available
+  comingSoon?: string;
 }
 
 export const MODULES: ModuleConfig[] = [
@@ -23,6 +23,16 @@ export const MODULES: ModuleConfig[] = [
     color: '#1B4332',
     colorLight: '#F0FDF4',
     colorBorder: '#D1FAE5',
+    available: true,
+  },
+  {
+    id: 'satisfaction',
+    label: 'Client Satisfaction',
+    sublabel: 'CHE DO client satisfaction survey',
+    icon: '📋',
+    color: '#7C3AED',
+    colorLight: '#FAF5FF',
+    colorBorder: '#E9D5FF',
     available: true,
   },
   {
@@ -41,15 +51,15 @@ export const MODULES: ModuleConfig[] = [
     label: 'Restroom Cleanliness',
     sublabel: 'Restroom condition & upkeep',
     icon: '🚻',
-    color: '#3B0764',
-    colorLight: '#FAF5FF',
-    colorBorder: '#E9D5FF',
+    color: '#0F766E',
+    colorLight: '#F0FDFA',
+    colorBorder: '#99F6E4',
     available: false,
     comingSoon: 'Connect your Restroom Cleanliness Google Form to activate this module.',
   },
 ];
 
-/* ─── Driver module types (unchanged) ─── */
+/* ─── Driver module types ─── */
 
 export interface FeedbackRow {
   timestamp: string;
@@ -116,3 +126,77 @@ export const ALL_METRICS: MetricKey[] = [
   'avgVehicleCleanliness',
   'avgDrivingComfort',
 ];
+
+/* ─── Satisfaction module types ─── */
+
+export interface SatisfactionRow {
+  timestamp: string;
+  fullName: string;
+  organization: string;
+  clientCategory: string;
+  staffHandled: string;
+  servicesAvailed: string;
+  responsiveness: number;
+  reliability: number;
+  accessFacilities: number;
+  communication: number;
+  costs: number;
+  integrity: number;
+  assurance: number;
+  outcome: number;
+  comments: string;
+  transactionDescription: string;
+  dateOfTransaction: string;
+  modeOfTransaction: string;
+  email: string;
+}
+
+export type SatisfactionMetricKey =
+  | 'avgResponsiveness'
+  | 'avgReliability'
+  | 'avgAccessFacilities'
+  | 'avgCommunication'
+  | 'avgCosts'
+  | 'avgIntegrity'
+  | 'avgAssurance'
+  | 'avgOutcome';
+
+export const SATISFACTION_METRIC_LABELS: Record<SatisfactionMetricKey, string> = {
+  avgResponsiveness: 'Responsiveness',
+  avgReliability: 'Reliability',
+  avgAccessFacilities: 'Access & Facilities',
+  avgCommunication: 'Communication',
+  avgCosts: 'Costs',
+  avgIntegrity: 'Integrity',
+  avgAssurance: 'Assurance',
+  avgOutcome: 'Outcome',
+};
+
+export const ALL_SATISFACTION_METRICS: SatisfactionMetricKey[] = [
+  'avgResponsiveness',
+  'avgReliability',
+  'avgAccessFacilities',
+  'avgCommunication',
+  'avgCosts',
+  'avgIntegrity',
+  'avgAssurance',
+  'avgOutcome',
+];
+
+export interface StaffStats {
+  name: string;
+  totalResponses: number;
+  avgOverall: number;
+  avgResponsiveness: number;
+  avgReliability: number;
+  avgAccessFacilities: number;
+  avgCommunication: number;
+  avgCosts: number;
+  avgIntegrity: number;
+  avgAssurance: number;
+  avgOutcome: number;
+  comments: string[];
+  services: string[];
+  modes: string[];
+  recentRatings: { date: string; avg: number }[];
+}
