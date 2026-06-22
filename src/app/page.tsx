@@ -8,82 +8,70 @@ import DriverModule from '@/modules/driver/DriverModule';
 
 export default function Home() {
   const [activeModule, setActiveModule] = useState<ModuleId>('driver');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const mod = MODULES.find((m) => m.id === activeModule)!;
+  const sidebarWidth = sidebarCollapsed ? 56 : 200;
 
   return (
     <div style={{ minHeight: '100vh', background: '#F1F5F9' }}>
-      {/* Top nav bar */}
-      <header
-        style={{
+      <Sidebar
+        modules={MODULES}
+        activeId={activeModule}
+        onChange={setActiveModule}
+        collapsed={sidebarCollapsed}
+        onToggle={() => setSidebarCollapsed((v) => !v)}
+      />
+
+      <div style={{
+        marginLeft: sidebarWidth,
+        transition: 'margin-left 0.22s cubic-bezier(0.4,0,0.2,1)',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+      }}>
+        {/* Top nav — no redundant title, just module name + institution */}
+        <header style={{
           background: '#0F2419',
           height: 48,
           display: 'flex',
           alignItems: 'center',
           padding: '0 20px',
-          gap: 14,
+          gap: 10,
           position: 'sticky',
           top: 0,
           zIndex: 100,
-        }}
-      >
-        <span style={{ fontSize: 16, fontWeight: 800, color: '#6EE7B7', letterSpacing: '0.04em' }}>
-          CHE Feedback Hub
-        </span>
-        <span style={{ color: '#374151', fontSize: 14 }}>·</span>
-        <span style={{ fontSize: 13, color: '#6B7280' }}>
-          {mod.icon} {mod.label}
-        </span>
-        <span style={{ marginLeft: 'auto', fontSize: 11, color: '#374151', fontWeight: 500 }}>
-          College of Human Ecology · UPLB
-        </span>
-      </header>
+        }}>
+          <span style={{ fontSize: 13, color: '#9CA3AF' }}>{mod.icon}</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: '#D1FAE5' }}>{mod.label}</span>
+          <span style={{ marginLeft: 'auto', fontSize: 11, color: '#fff', fontWeight: 500 }}>
+            College of Human Ecology · UPLB
+          </span>
+        </header>
 
-      {/* Main layout */}
-      <div
-        style={{
-          maxWidth: 1320,
-          margin: '0 auto',
-          padding: '20px 16px',
-          display: 'flex',
-          gap: 16,
-          alignItems: 'flex-start',
-        }}
-      >
-        {/* Left sidebar nav */}
-        <Sidebar
-          modules={MODULES}
-          activeId={activeModule}
-          onChange={setActiveModule}
-        />
-
-        {/* Module content */}
-        <main
-          style={{
-            flex: 1,
-            minWidth: 0,
+        <div style={{ flex: 1, padding: '20px' }}>
+          <main style={{
             background: '#fff',
             borderRadius: 16,
             padding: '20px 24px',
             border: '1px solid #E2E8F0',
             boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-          }}
-        >
-          {activeModule === 'driver' && <DriverModule />}
-          {activeModule === 'cleanliness' && (
-            <ComingSoonModule module={MODULES.find((m) => m.id === 'cleanliness')!} />
-          )}
-          {activeModule === 'restroom' && (
-            <ComingSoonModule module={MODULES.find((m) => m.id === 'restroom')!} />
-          )}
-        </main>
-      </div>
+            minHeight: 'calc(100vh - 128px)',
+          }}>
+            {activeModule === 'driver' && <DriverModule />}
+            {activeModule === 'cleanliness' && (
+              <ComingSoonModule module={MODULES.find((m) => m.id === 'cleanliness')!} />
+            )}
+            {activeModule === 'restroom' && (
+              <ComingSoonModule module={MODULES.find((m) => m.id === 'restroom')!} />
+            )}
+          </main>
+        </div>
 
-      <footer
-        style={{ textAlign: 'center', padding: '16px 0 24px', color: '#94A3B8', fontSize: 11 }}
-      >
-        CHE Feedback Hub · All data from Google Forms · {new Date().getFullYear()}
-      </footer>
+        <footer style={{ textAlign: 'center', padding: '12px 0 20px', color: '#94A3B8', fontSize: 11 }}>
+          CHE Feedback Hub · All data from Google Forms · {new Date().getFullYear()}
+        </footer>
+      </div>
     </div>
   );
 }
